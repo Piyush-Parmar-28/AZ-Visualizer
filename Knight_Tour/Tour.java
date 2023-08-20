@@ -1,8 +1,10 @@
-package Knight_Tour;
+package AZ_Visualizer.Knight_Tour;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 
 public class Tour {
     static class pair{

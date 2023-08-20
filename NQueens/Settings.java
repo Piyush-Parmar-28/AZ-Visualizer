@@ -1,4 +1,4 @@
-package NQueens;
+package AZ_Visualizer.NQueens;
 
 import javax.swing.*;
 import java.awt.*;

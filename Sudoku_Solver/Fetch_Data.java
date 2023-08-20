@@ -1,14 +1,15 @@
-package Sudoku_Solver;
+package AZ_Visualizer.Sudoku_Solver;
 
 import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
 public class Fetch_Data {
-    static org.json.simple.JSONArray matrix;
+    static JSONArray matrix;
 
     public static void main(String[] args) {
         String apiUrl = "https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value}}}";
@@ -36,7 +37,7 @@ public class Fetch_Data {
                 JSONObject data_obj1 = (JSONObject) parser.parse(inline);
 
                 JSONObject data_obj2 = (JSONObject) parser.parse( String.valueOf(data_obj1.get("newboard")) );
-                org.json.simple.JSONArray arr = (JSONArray) parser.parse( String.valueOf(data_obj2.get("grids")) );
+                JSONArray arr = (JSONArray) parser.parse( String.valueOf(data_obj2.get("grids")) );
                 JSONObject data_obj3 = (JSONObject) parser.parse( String.valueOf(arr.get(0)) );
                 matrix = (JSONArray) parser.parse( String.valueOf(data_obj3.get("value")) );
 

@@ -1,12 +1,8 @@
-package NQueens;
+package AZ_Visualizer.NQueens;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.HashSet;
 
 public class nQueens2 {
     static HashSet<Integer> leftDia;

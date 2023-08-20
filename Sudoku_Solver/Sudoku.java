@@ -1,4 +1,4 @@
-package Sudoku_Solver;
+package AZ_Visualizer.Sudoku_Solver;
 
 import javax.swing.*;
 import java.awt.*;
