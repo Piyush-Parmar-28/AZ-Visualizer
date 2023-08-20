@@ -12,6 +12,7 @@ public class nQueens2 {
     static int n;
     static JLabel[][] jLabel;
     static int[][] board;
+    static int delay;
 
     static class myFrame extends JFrame{
         myFrame(int boardSize){
@@ -22,7 +23,6 @@ public class nQueens2 {
 
             setVisible(true);
             setSize(500,500);
-            System.out.println("n: "+ n);
 
             setLayout(new GridLayout(n, n, 2, 2));
             setTitle("N Queens Visualization");
@@ -50,9 +50,28 @@ public class nQueens2 {
         hor= new HashSet<>();
         ver= new HashSet<>();
 
-        myFrame obj= new myFrame( 6 );
-        System.out.println("solving");
-        solveNQueen(n, 0);
+        //  Shifting the board creation & solving in the background thread...
+        //  ...so as to free up the main thread
+        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                int boardSize= Integer.parseInt(args[0]);
+                delay= Integer.parseInt(args[1]);
+
+                myFrame obj= new myFrame(boardSize);
+                solveNQueen(n, 0);
+
+                return "Finished Background task";
+            }
+
+            @Override
+            protected void done() {
+                System.out.println("Task finished");
+            }
+        };
+
+        // Start the task in a background thread
+        worker.execute();
     }
 
     public static void solveNQueen(int queens, int row){
@@ -65,7 +84,7 @@ public class nQueens2 {
         for(int col=0; col<n; col++){
             //Increase the sleep value to slow down the animation
             try {
-                Thread.sleep(0);
+                Thread.sleep(delay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -94,7 +113,7 @@ public class nQueens2 {
 
     public static boolean check(int row, int col){
         try {
-            Thread.sleep(20);
+            Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
