@@ -50,14 +50,13 @@ public class nQueens2 {
         hor= new HashSet<>();
         ver= new HashSet<>();
 
-        //  Shifting the board creation & solving in the background thread...
-        //  ...so as to free up the main thread
+        int boardSize= Integer.parseInt(args[0]);
+        delay= Integer.parseInt(args[1]);
+
+        //  Shifting the board creation & solving in the background thread, so as to free up the main thread
         SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
             @Override
             protected String doInBackground() throws Exception {
-                int boardSize= Integer.parseInt(args[0]);
-                delay= Integer.parseInt(args[1]);
-
                 myFrame obj= new myFrame(boardSize);
                 solveNQueen(n, 0);
 
