@@ -1,5 +1,7 @@
 package AZ_Visualizer.Knight_Tour;
 
+import AZ_Visualizer.NQueens.nQueens2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -29,6 +31,7 @@ public class Tour {
     static JLabel[][] jLabel;
     static int[][] board;
     static boolean[][] vis;
+    static int delay;
 
     static class myFrame extends JFrame{
         myFrame(int boardSize){
@@ -62,16 +65,49 @@ public class Tour {
     }
 
     public static void main( String args[] ){
-        myFrame obj= new myFrame( 6 );
+        int boardSize= Integer.parseInt(args[0]);
+        delay= Integer.parseInt(args[1])*10;
 
-        jLabel[0][0].setBackground(Color.GREEN);
-        jLabel[3][4].setBackground(Color.ORANGE);
+        int sx= Integer.parseInt(args[2]);
+        int sy= Integer.parseInt(args[3]);
 
-        int[] start= {3, 4};
-        int[] dest= {0, 0};
+        int dx= Integer.parseInt(args[4]);
+        int dy= Integer.parseInt(args[5]);
 
-        int steps= getSteps(dest[0], dest[1], start[0], start[1]);
-        System.out.println("Min steps to reach destination is: "+ steps);
+        if( !isValid(boardSize, sx, sy, dx, dy) ){
+            System.out.println("Invalid source/destination position!");
+            return;
+        }
+
+        //  Shifting the board creation & solving in the background thread, so as to free up the main thread
+        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                myFrame obj= new myFrame( boardSize );
+                jLabel[sx][sy].setBackground(Color.GREEN);
+                jLabel[dx][dy].setBackground(Color.ORANGE);
+
+                int steps= getSteps(dx, dy, sx, sy);
+                System.out.println("Min steps to reach destination is: "+ steps);
+
+                return "Finished Background task";
+            }
+
+            @Override
+            protected void done() {
+                System.out.println("Task finished");
+            }
+        };
+
+        // Start the task in a background thread
+        worker.execute();
+    }
+
+    public static boolean isValid(int n, int sx, int sy, int dx, int dy){
+        if(sx<0 || sy <0 || sx>= n || sy>= n || dx<0 || dy <0 || dx>= n || dy>= n){
+            return false;
+        }
+        return true;
     }
 
     public static int getSteps(int xDest, int yDest, int x, int y){
@@ -84,7 +120,7 @@ public class Tour {
         String[] dir= {"up", "up", "left", "right", "left", "right", "down", "down"};
 
         while(q1.size() > 0){
-            wait(2000);
+            wait(delay);
 
             //  Color
             Random rand= new Random();
@@ -100,7 +136,7 @@ public class Tour {
                 //  Highlighting the border
                 highlightPathUpDown(p.prevX, p.prevY, p.x, p.y, p.steps, obj);
 
-                wait(2000);
+                wait(delay);
 
                 //  Coloring the path
                 colorPathUpDown(p.prevX, p.prevY, p.x, p.y, p.steps, obj);
@@ -109,7 +145,7 @@ public class Tour {
                 //  Highlighting the border
                 highlightPathLeftRight(p.prevX, p.prevY, p.x, p.y, p.steps, obj);
 
-                wait(2000);
+                wait(delay);
 
                 //  Coloring the path
                 colorPathLeftRight(p.prevX, p.prevY, p.x, p.y, p.steps, obj);
