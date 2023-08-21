@@ -44,7 +44,7 @@ public class Settings {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String n= text1.getText();
-                    int speed= slider.getValue();
+                    int delay= slider.getValue();
 
                     String x1= sx.getText();
                     String y1= sy.getText();
@@ -52,7 +52,7 @@ public class Settings {
                     String x2= dx.getText();
                     String y2= dy.getText();
 
-                    String[] args= {n, Integer.toString(speed), x1, y1, x2, y2};
+                    String[] args= {n, Integer.toString(delay), x1, y1, x2, y2};
                     Tour.main(args);
                 }
             });

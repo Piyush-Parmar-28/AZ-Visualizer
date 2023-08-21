@@ -25,9 +25,9 @@ public class Settings {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String n= text.getText();
-                    int speed= slider.getValue();
+                    int delay= slider.getValue();
 
-                    String[] args= {n, Integer.toString(speed)};
+                    String[] args= {n, Integer.toString(delay)};
                     nQueens2.main(args);
                 }
             });
