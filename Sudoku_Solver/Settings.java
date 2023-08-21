@@ -33,7 +33,7 @@ public class Settings {
             setSize(500,500);
             setLayout(new FlowLayout());
             setTitle("Sudoku Solver Visualization");
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
     }
 
