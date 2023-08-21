@@ -51,9 +51,10 @@ public class Fetch_Data {
 
         Sudoku obj= new Sudoku();
         String s= matrix.toString();
+        String delay= args[0];
 
         if (s.length() != 0){
-            String[] arr= {matrix.toString()};
+            String[] arr= {matrix.toString(), delay};
             obj.main(arr);
         }
         else{

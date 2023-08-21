@@ -1,5 +1,7 @@
 package AZ_Visualizer.Sudoku_Solver;
 
+import AZ_Visualizer.NQueens.nQueens2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class Sudoku {
     static int count;
     static JLabel[][] jLabel;
     static int[][] board;
+    static int delay;
 
     static class myFrame extends JFrame{
         myFrame(){
@@ -55,6 +58,7 @@ public class Sudoku {
         rowHs= new ArrayList<>();
         colHs= new ArrayList<>();
         boxHs= new ArrayList<>();
+        delay= Integer.parseInt(args[1]);
 
         for(int i=0; i<9; i++){
             rowHs.add(new HashSet<>());
@@ -62,12 +66,27 @@ public class Sudoku {
             boxHs.add(new HashSet<>());
         }
 
-        myFrame obj= new myFrame();
+        //  Shifting the board creation & solving in the background thread, so as to free up the main thread
+        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                myFrame obj= new myFrame();
+                //  Adding the API array values to board array
+                addToBoard(args[0]);
 
-        //  Adding the API array values to board array
-        addToBoard(args[0]);
+                solve(board, count);
 
-        solve(board, count);
+                return "Finished Background task";
+            }
+
+            @Override
+            protected void done() {
+                System.out.println("Task finished");
+            }
+        };
+
+        // Start the task in a background thread
+        worker.execute();
     }
 
     public static void addToBoard(String s){
@@ -107,7 +126,7 @@ public class Sudoku {
 
                 if(board[i][j] == 0){
                     for(int c= 1; c<= 9; c++){
-                        wait(2);
+                        wait(delay);
 
                         int boardNum= (3*(i/3))+(3+j)/3 -1;
 
